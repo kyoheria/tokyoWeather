@@ -1,4 +1,5 @@
 class SnowFlake {
+	
 	constructor(){
 		let x = random (width);
 		let y = random (-100,-10); 
