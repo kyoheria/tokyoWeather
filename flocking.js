@@ -8,6 +8,17 @@ Flock.prototype.run = function() {
     this.boids[i].run(this.boids);  // Passing the entire list of boids to each boid individually
   }
 }
+Flock.prototype.colorChangeClicked = function() {
+  for (var i = 0; i < this.boids.length; i++) {
+    this.boids[i].colorChangeClicked();  // Passing the entire list of boids to each boid individually
+  }
+}
+
+Flock.prototype.colorChange = function() {
+  for (var i = 0; i < this.boids.length; i++) {
+    this.boids[i].colorChange();  // Passing the entire list of boids to each boid individually
+  }
+}
 
 Flock.prototype.addBoid = function(b) {
   this.boids.push(b);
@@ -26,6 +37,14 @@ function Boid(x,y) {
   this.maxforce = winddeg /1500; // Maximum steering 
   //this.maxforce = 0.5; // Maximum steering force
   this.shade = color(int(random(0,255)),int(random(0,255)),int(random(0,255)));
+  this.strokeColor = color(200);
+}
+
+Boid.prototype.colorChangeClicked = function() {
+  this.strokeColor = color(255,0,0);
+}
+Boid.prototype.colorChange = function() {
+  this.strokeColor = color(200);
 }
 
 Boid.prototype.run = function(boids) {
@@ -81,6 +100,15 @@ Boid.prototype.seek = function(target) {
 Boid.prototype.render = function() {
   // Draw a triangle rotated in the direction of velocity
   var theta = this.velocity.heading() + radians(90);
+  if( h<(sunrise+sunset)/2){
+    dark = map(h,0,(sunrise+sunset)/2,0,255);
+    //background(0,map(h,0,(sunrise+sunset)/2,50,255),0);
+    //background(color(r,0,b));
+  }else{
+    dark = map(h,1,(sunrise+sunset)/2,23,0,255);
+    //background(0,0,map(h,1,(sunrise+sunset)/2,23,50,255));
+    //background(color(r,0,b));
+  }
   one=map(temp, 0,40,40,255);
   three=map(temp, 0,40,255,40);
   //two = mouseX + mouseY;
@@ -89,7 +117,7 @@ Boid.prototype.render = function() {
   //a=map(30, 0,50,50,255);
   //z=map(30, 0,50,50,255);
   //fill(a,50,z)
-  stroke(200);
+  stroke(this.strokeColor);
   push();
   translate(this.position.x,this.position.y);
   rotate(theta);
