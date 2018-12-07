@@ -43,17 +43,23 @@ var sunsetColor;
 var visibilityColor;
 var sunriseMin;
 var sunsetMin;
+
+var fontShirokuma;
 // button;
 
 function preload() {
+
+  fontShirokuma = loadFont('assets/geometric.ttf');
   // Get the most recent earthquake in the database
-let apiKey = '859dd915fbeed6d12c75e1ad595bf2ae';
-let city = 'tokyo';
-let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
-  weather = loadJSON(url);
+  let apiKey = '859dd915fbeed6d12c75e1ad595bf2ae';
+  let city = 'tokyo';
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+    weather = loadJSON(url);
 }
 
 function setup() {
+  textAlign(CENTER);
+  textFont(fontShirokuma);
   createCanvas(windowWidth, windowHeight-10);
   angleMode(RADIANS);
   snow.push(new SnowFlake());
@@ -146,7 +152,6 @@ function setup() {
     c = color(241,89,40);
   }  //var b = map(temp, 15,40,255,0);
   //c = color(r,0,b);
-  
   cCopy = c;
 
   g = parseInt(map(humidity, 0,100, 50 ,255,true));
@@ -177,9 +182,8 @@ function draw() {
   // console.log("sunrise"+sunrise);
   // console.log("darkest point"+(sunrise+(sunset-sunrise)/2));
   
-  var sunrisePoint = map(sunrise,0,12,PI + HALF_PI,TWO_PI+HALF_PI); //180 degree
-  var sunsetPoint = map(sunset,12,24, HALF_PI,PI + HALF_PI); //0 degree
-  
+  var sunrisePoint = map(sunrise,0,12,HALF_PI ,PI + HALF_PI); //180 degree
+  var sunsetPoint = map(sunset,12,24, PI + HALF_PI,TWO_PI+HALF_PI); //0 degree
   //console.log(c);
   
   if( h>sunrise && h<sunset){
@@ -214,17 +218,18 @@ function draw() {
     xpoint = width -300;
     ypoint = height -150;
   }else{
-    fill(255,165,0);
+    fill(236, 154, 52);
     xpoint = 0 + 300;
     ypoint = 0 + 100;
   }
   strokeWeight(4);
   stroke(255);
   arc(xpoint,ypoint, 100, 100, 0, TWO_PI);
-  stroke(255,255,153);
-  arc(xpoint,ypoint, 90, 90, sunrisePoint,sunsetPoint);
-  stroke(0);
-  arc(xpoint,ypoint, 90, 90,sunsetPoint, sunrisePoint);
+  stroke(251, 177, 68);
+  arc(xpoint,ypoint, 100, 100, sunrisePoint,sunsetPoint);
+  stroke(91, 36, 137);
+  arc(xpoint,ypoint, 100, 100,sunsetPoint, sunrisePoint);
+
   //noStroke();
   
   strokeWeight(1);
@@ -279,20 +284,24 @@ function draw() {
   fill(visibilityColor);
   rect(0,0,width,height);
   //console.log("dark"+dark);
-  fill(0,0,0);
-  text(hour() +':' +minute(), 100, 30);
+  fill(119,119,119);
+  var min = minute();
+  if(min <10){
+    min="0"+min;
+  }
+  text(hour() +':' +min, 100, 30);
 
   for(var i = 0;i<wealength;i++){
-    fill(0,0,0);
+    fill(119,119,119);
     text(wea[i], (i+1)*100, 60);
   }
   stroke(255,255,255);
   fill(sunriseColor);
   text(parseInt(sunrise)+':'+sunriseMin, xpoint-30,ypoint);
-  stroke(0,0,0);
+  stroke(119,119,119);
   fill(sunsetColor);
   text(parseInt(sunset)+':'+sunsetMin, xpoint-30,ypoint+30);
-
+  
   for (var i = 0; i < buttons.length; i++) {
      buttons[i].render();
      //buttons[i].clicked();
@@ -361,14 +370,14 @@ function mousePressed(){
   if(mouseX>50 && mouseX<200){
     if(mouseY>100&&mouseY<150){
       //buttons[1].clicked();
-      info = windspeed;
+      info = windspeed+"m/sec";
       flock.colorChangeClicked();
     }else{
       flock.colorChange();
     }
     if(mouseY>150&&mouseY<200){
       //buttons[1].clicked();
-      info = tempture;
+      info = tempture+"°C";
       c = color(255,0,0);
     }else{
       //flock.colorChange();
@@ -376,7 +385,7 @@ function mousePressed(){
     }
     if(mouseY>250&&mouseY<300){
       //buttons[1].clicked();
-      info = humidity;
+      info = humidity+"%";
       humidityColor = color(255,0,0);
       // g = 0;
       // B = 0;
@@ -388,7 +397,7 @@ function mousePressed(){
     }
     if(mouseY>200&&mouseY<250){
       //buttons[1].clicked();
-      info = pressure;
+      info = pressure+"hPa";
       pressureColor = color(255,0,0);
       // g = 0;
       // B = 0;
@@ -399,19 +408,19 @@ function mousePressed(){
       pressureColor = 200;
     }
     if(mouseY>300&&mouseY<350){
-      info = sunrise;
+      info = sunrise+"am";
       sunriseColor = color(255,0,0);
     }else{
       sunriseColor = color(255,165,0);
     }
     if(mouseY>350&&mouseY<400){
-      info = sunset;
+      info = sunset+"pm";
       sunsetColor = color(255,0,0);
     }else{
       sunsetColor = color(255,255,102);
     }
     if(mouseY>400&&mouseY<450){
-      info = weather.visibility;
+      info = weather.visibility+"m";
       visibilityColor = color(255,0,0,alpha);
     }else{
       visibilityColor = color(0,0,0,alpha);
@@ -440,13 +449,15 @@ class InfoButton{
 
   render(){
     fill(255);
+    stroke(119, 119, 119);
     rect(this.posX, this.posY, 150,50);
-    fill(0);
+    fill(187, 194, 194);
     text(this.name,this.posX+5, this.posY+25);
   }
 
   clicked(){
-    fill(255);
+    fill(187, 194, 194);
+    stroke(119, 119, 119);
     text("info", 500, 200);
     text(this.info, 500, 200);
     console.log("showing info");

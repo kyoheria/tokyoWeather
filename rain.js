@@ -8,8 +8,8 @@ class RainParticle {
 	
 	}
 	render(){
-		stroke(0,0,255,100);
-		strokeWeight(1);
+		stroke(3, 74, 236,150);
+		strokeWeight(2);
 		line(this.pos.x, this.pos.y,this.pos.x, this.pos.y-10);
 	}
 	update(){
