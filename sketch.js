@@ -253,11 +253,10 @@ function draw() {
   }
   stroke(255,255,255);
   fill(sunriseColor);
-  text(parseInt(sunrise)+':'+(sunrise*100)%100, xpoint-30,ypoint);
+  text(parseInt(sunrise)+':'+parseInt((sunrise-parseInt(sunrise))*100), xpoint-30,ypoint);
   stroke(0,0,0);
   fill(sunsetColor);
-  text(parseInt(sunset)+':'+(sunset*100)%100, xpoint-30,ypoint+30);
-
+  text(parseInt(sunset)+':'+parseInt((sunset-parseInt(sunset))*100), xpoint-30,ypoint+30);
   for (var i = 0; i < buttons.length; i++) {
      buttons[i].render();
      //buttons[i].clicked();
