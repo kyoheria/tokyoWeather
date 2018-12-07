@@ -120,9 +120,33 @@ function setup() {
     var b = new Boid(width,height/2);
     flock.addBoid(b);
   }
-  var r = map(temp, 0,50,40,255);
-  var b = map(temp, 0,50,255,40);
-  c = color(r,0,b);
+  if(temp<= -18){
+    c = color(145,63,152);
+  }else if(temp<=-12){
+    c = color(101,73,153);
+  }else if(temp<=-7){
+    c = color(69,86,165);
+  }else if(temp<=-1){
+    c = color(91,114,183);
+  }else if(temp<=4){
+    c = color(57,164,220);
+  }else if(temp<=10){
+    c = color(24,186,207);
+  }else if(temp<=16){
+    c = color(0,151,137);
+  }else if(temp<=21){
+    c = color(39,156,72);
+  }else if(temp<=27){
+    c = color(139,193,72);
+  }else if(temp<=32){
+    c = color(250,196,17);
+  }else if(temp<=38){
+    c = color(248,152,29);
+  }else if(temp>38){
+    c = color(241,89,40);
+  }  //var b = map(temp, 15,40,255,0);
+  //c = color(r,0,b);
+  
   cCopy = c;
 
   g = parseInt(map(humidity, 0,100, 50 ,255,true));
