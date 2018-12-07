@@ -41,6 +41,8 @@ var humidityColor;
 var sunriseColor;
 var sunsetColor;
 var visibilityColor;
+var sunriseMin;
+var sunsetMin;
 // button;
 
 function preload() {
@@ -134,6 +136,15 @@ function setup() {
   sunriseColor = color(255,165,0);
   sunsetColor = color(255,255,102);
   visibilityColor = color(0,0,0,alpha);
+
+  sunriseMin = parseInt((sunrise-parseInt(sunrise))*100);
+  if(sunriseMin<10){
+    sunriseMin = "0"+sunriseMin;
+  }
+  sunsetMin = parseInt((sunset-parseInt(sunset))*100);
+  if(sunsetMin<10){
+    sunsetMin = "0"+sunsetMin;
+  }
 }
 
 function draw() {
@@ -253,10 +264,11 @@ function draw() {
   }
   stroke(255,255,255);
   fill(sunriseColor);
-  text(parseInt(sunrise)+':'+parseInt((sunrise-parseInt(sunrise))*100), xpoint-30,ypoint);
+  text(parseInt(sunrise)+':'+sunriseMin, xpoint-30,ypoint);
   stroke(0,0,0);
   fill(sunsetColor);
-  text(parseInt(sunset)+':'+parseInt((sunset-parseInt(sunset))*100), xpoint-30,ypoint+30);
+  text(parseInt(sunset)+':'+sunsetMin, xpoint-30,ypoint+30);
+
   for (var i = 0; i < buttons.length; i++) {
      buttons[i].render();
      //buttons[i].clicked();
